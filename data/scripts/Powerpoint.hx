@@ -1,5 +1,6 @@
 //a
 import openfl.display.BitmapData;
+import openfl.display.Bitmap;
 import funkin.menus.BetaWarningState;
 
 import Type;
@@ -21,11 +22,25 @@ function create(e) {
     // bgSprite.screenCenter();
     // bgSprite.scrollFactor.set();
     // add(bgSprite);
+    
+    var game = FlxG.game;
+    var iscreenWidth = game.x * 2 + game.width;
+    var iscreenHeight = game.y * 2 + game.height;
+    var aspectChange = prevGameBitmap.width * iscreenWidth;
+
+    var edgeX = game.x / aspectChange;
+    var edgeY = game.y / aspectChange;    
 
     prevStateSprite = new FlxSprite();
     prevStateSprite.pixels = prevGameBitmap;
-    prevStateSprite.screenCenter();
     prevStateSprite.scrollFactor.set();
+    prevStateSprite.frame.frame = prevStateSprite.frame.frame.set(edgeX, edgeY, prevGameBitmap.width - edgeX * 2, prevGameBitmap.height - edgeY * 2);
+    var ff = prevStateSprite.frame;
+    prevStateSprite.frame = null;
+    prevStateSprite.frame = ff;
+    prevStateSprite.setGraphicSize(FlxG.width, FlxG.height);
+    prevStateSprite.updateHitbox();
+    prevStateSprite.screenCenter();
     add(prevStateSprite);
 
     // newStateSprite = new FlxSprite();
