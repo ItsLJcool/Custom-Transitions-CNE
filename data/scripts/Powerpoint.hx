@@ -5,6 +5,7 @@ import funkin.menus.BetaWarningState;
 
 import Type;
 
+var prevStateSprite:FlxSprite = null;
 function create(e) {
     if ((e.newState is BetaWarningState) || (FlxG.state is BetaWarningState) || FlxG.save.data.transitionTypeName.toLowerCase() == "default") return;
     var _default_persistentUpdate = FlxG.state.persistentUpdate;
@@ -62,6 +63,7 @@ function create(e) {
 function destroy() {
     for (item in members) {
         if (item == null) continue;
+        FlxTween.cancelTweensOf(item);
         item.destroy();
         remove(item, true);
     }
