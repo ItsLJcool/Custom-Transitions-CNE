@@ -22,6 +22,10 @@ function postCreate() {
 function getOptions() {
     var optionsArray = new ArrayOption("Type", "Select the type of transition you want to use!", transitionOptionsValues, __transitionNames, "transitionTypeName", (curSel) -> {
         FlxG.save.data.transitionTypeName = curSel;
+        // if (curSel == "flashbang") {
+        //     var testTransition = new TextOption("Test", "test");
+        //     testTransition.selectCallback = () -> { trace("??"); }
+        // }
     }, FlxG.save.data);
     
     var testTransition = new TextOption("Test Transition", "Test your selected transition!");
