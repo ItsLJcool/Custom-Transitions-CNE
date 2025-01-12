@@ -29,7 +29,7 @@ function create(e) {
     var aspectChange = prevGameBitmap.width * iscreenWidth;
 
     var edgeX = game.x / aspectChange;
-    var edgeY = game.y / aspectChange;    
+    var edgeY = game.y / aspectChange;
 
     prevStateSprite = new FlxSprite();
     prevStateSprite.pixels = prevGameBitmap;
@@ -38,7 +38,7 @@ function create(e) {
     var ff = prevStateSprite.frame;
     prevStateSprite.frame = null;
     prevStateSprite.frame = ff;
-    prevStateSprite.setGraphicSize(FlxG.width, FlxG.height);
+    prevStateSprite.setGraphicSize(FlxG.width - iscreenWidth, FlxG.height);
     prevStateSprite.updateHitbox();
     prevStateSprite.screenCenter();
     add(prevStateSprite);
