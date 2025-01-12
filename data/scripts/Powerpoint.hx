@@ -39,7 +39,7 @@ function create(e) {
     var ff = prevStateSprite.frame;
     prevStateSprite.frame = null;
     prevStateSprite.frame = ff;
-    prevStateSprite.setGraphicSize(FlxG.width - iscreenWidth, FlxG.height);
+    prevStateSprite.setGraphicSize(FlxG.width, FlxG.height);
     prevStateSprite.updateHitbox();
     prevStateSprite.screenCenter();
     add(prevStateSprite);
