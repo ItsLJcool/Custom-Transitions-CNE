@@ -2,6 +2,7 @@
 
 import flixel.math.FlxRect;
 import funkin.backend.MusicBeatTransition;
+import openfl.geom.ColorTransform;
 import StringTools;
 
 static var prevGameBitmap:BitmapData = null;
@@ -16,7 +17,7 @@ function destroy() {
     prevGameBitmap = null;
 }
 
-static var transitionNames = ["Default", "Instant", "Uncover", "Fly Through", "Scale", "Spin"];
+static var transitionNames = ["Default", "Instant", "Uncover", "Fly Through", "Scale", "Spin", "Flashbang"];
 static function transitionType(_prevStateSprite:FlxSprite, _finish, ?type:String, ?time:Float, ?extras:Dynamic) {
     var finish = _finish;
     var prevStateSprite = _prevStateSprite;
@@ -58,6 +59,15 @@ static function transitionType(_prevStateSprite:FlxSprite, _finish, ?type:String
             FlxTween.tween(prevStateSprite.scale, {x: 0, y: 0}, time, {ease: FlxEase.quadIn});
         case "instant":
             finish();
+        case "flashbang":
+            prevStateSprite.colorTransform.redMultiplier = prevStateSprite.colorTransform.greenMultiplier = prevStateSprite.colorTransform.blueMultiplier = 0;
+            prevStateSprite.colorTransform.redOffset = prevStateSprite.colorTransform.greenOffset = prevStateSprite.colorTransform.blueOffset = 255;
+            // prevStateSprite.color = 0x
+            FlxTween.tween(prevStateSprite, {alpha: 0}, 1, {ease: FlxEase.quadIn, onComplete: finish});
+            new FlxTimer().start(time*0.5, () -> {
+                FlxG.state.persistentUpdate = true;
+                FlxG.state.persistentDraw = true;
+            });
         default:
             trace("Invalid transition type: " + type);
             return false;
