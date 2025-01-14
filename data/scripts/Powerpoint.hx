@@ -67,7 +67,6 @@ function create(e) {
 
 function onSkip(e) {
     if (playingVideo == null) return;
-    trace("Skipping");
     e.cancel();
     playingVideo.bitmap.onEndReached.dispatch();
 }
