@@ -22,10 +22,6 @@ function postCreate() {
 function getOptions() {
     var optionsArray = new ArrayOption("Type", "Select the type of transition you want to use!", transitionOptionsValues, __transitionNames, "transitionTypeName", (curSel) -> {
         FlxG.save.data.transitionTypeName = curSel;
-        // if (curSel == "flashbang") {
-        //     var testTransition = new TextOption("Test", "test");
-        //     testTransition.selectCallback = () -> { trace("??"); }
-        // }
     }, FlxG.save.data);
     
     var testTransition = new TextOption("Test Transition", "Test your selected transition!");
@@ -34,8 +30,16 @@ function getOptions() {
         FlxFlicker.stopFlickering(testTransition);
         FlxG.resetState();
     }
-    return [
-        optionsArray,
-        testTransition
-    ];
+
+    if (!FlxG.random.bool(10)) return [ optionsArray,  testTransition ];
+    else {
+        var video = new TextOption("Secret Transition..?", "???");
+        video.selectCallback = () -> {
+            FlxFlicker.stopFlickering(video);
+            __onceVideoTransition = true;
+            FlxG.resetState();
+        }
+        // alwaysVideoTransition
+        return [ optionsArray, testTransition, video];
+    }
 }

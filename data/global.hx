@@ -18,6 +18,8 @@ function destroy() {
 }
 
 static var transitionNames = ["Default", "Instant", "Uncover", "Fly Through", "Scale", "Spin", "Flashbang"];
+static var alwaysVideoTransition:Bool = false;
+static var __onceVideoTransition:Bool = false;
 static function transitionType(_prevStateSprite:FlxSprite, _finish, ?type:String, ?time:Float, ?extras:Dynamic) {
     var finish = _finish;
     var prevStateSprite = _prevStateSprite;
@@ -62,14 +64,13 @@ static function transitionType(_prevStateSprite:FlxSprite, _finish, ?type:String
         case "flashbang":
             prevStateSprite.colorTransform.redMultiplier = prevStateSprite.colorTransform.greenMultiplier = prevStateSprite.colorTransform.blueMultiplier = 0;
             prevStateSprite.colorTransform.redOffset = prevStateSprite.colorTransform.greenOffset = prevStateSprite.colorTransform.blueOffset = 255;
-            // prevStateSprite.color = 0x
             FlxTween.tween(prevStateSprite, {alpha: 0}, 1, {ease: FlxEase.quadIn, onComplete: finish});
             new FlxTimer().start(time*0.5, () -> {
                 FlxG.state.persistentUpdate = true;
                 FlxG.state.persistentDraw = true;
             });
         default:
-            trace("Invalid transition type: " + type);
+            if (type.toLowerCase() != "default") trace("Invalid transition type: " + type);
             return false;
     }
     return true;
